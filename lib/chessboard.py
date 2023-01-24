@@ -2,7 +2,7 @@ class ChessBoard:
     size = None
 
     def __init__(self, size = 8):
-      self.size = self.set_size(size)
+      self.set_size(size)
       self.board = [[{'x': x, 'y': y, 'steps': 0} for x in range(self.size)] for y in range(self.size)]
 
     def is_valid(self, x, y):
