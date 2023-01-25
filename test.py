@@ -1,6 +1,7 @@
 import unittest
 from chessboard import ChessBoard
 
+
 class TestChessBoard(unittest.TestCase):
     def setUp(self):
         self.chessboard = ChessBoard()
@@ -21,6 +22,7 @@ class TestChessBoard(unittest.TestCase):
 
     def log(self, message):
         print(f'{message}')
+
 
 if __name__ == '__main__':
     unittest.main()
