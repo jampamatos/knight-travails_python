@@ -1,21 +1,35 @@
 class Knight:
 
-    def __init__(self, chessboard, start_pos=[0, 0], steps=0):
+    def __init__(self, chessboard, start_pos = [0,0]):
         self.chessboard = chessboard
         self.start_pos = start_pos
-        self.steps = steps
+        self.visited = []
 
-    def valid_move(self, move):
-        x, y = move
-        possible_moves = [[-1, -2], [-2, -1], [-2, 1],
-                          [-1, 2], [1, -2], [2, -1], [2, 1], [1, 2]]
-        for dx, dy in possible_moves:
-            if self.chessboard.is_valid(x + dx, y + dy) and self.chessboard.is_valid(x, y):
-                return True
-        return False
+    def valid_move(self, pos):
+        if pos[0] < 0 or pos[0] > 7 or pos[1] < 0 or pos[1] > 7:
+            return False
+        # check if the move was already made
+        if pos in self.visited:
+            return False
+        return True
 
-    def move_to(self, target_pos):
-        if self.valid_move(target_pos):
-            self.start_pos = target_pos
+    def find_valid_moves(self, pos = None):
+        if not pos:
+            pos = self.start_pos
+        valid_moves = []
+        moves = [(2, 1), (2, -1), (-2, 1), (-2, -1), (1, 2), (1, -2), (-1, 2), (-1, -2)]
+        for move in moves:
+            new_x = pos[0] + move[0]
+            new_y = pos[1] + move[1]
+            if self.valid_move([new_x, new_y]):
+                valid_moves.append([new_y, new_x])
+        return valid_moves
+
+    def move_to(self, pos):
+        if self.valid_move(pos):
+            self.start_pos = pos
+            self.visited.append(pos)
+            return True
         else:
-            raise ValueError("Invalid move")
+            return False
+

@@ -28,8 +28,6 @@ class ChessBoard:
             print(row + f" {i+1}")
         print("   A  B  C  D  E  F  G  H")
 
-
-
     def set_knight(self, knight):
         self.knight = knight
 

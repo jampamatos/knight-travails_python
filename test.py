@@ -1,10 +1,7 @@
 import unittest
-import sys
-import io
 
-from contextlib import redirect_stdout
-from chessboard import ChessBoard
-from knight import Knight
+from lib.chessboard import ChessBoard
+from lib.knight import Knight
 
 
 class TestChessBoard(unittest.TestCase):
@@ -40,30 +37,38 @@ class TestKnight(unittest.TestCase):
         print("Running test case: Moving to a valid position")
         self.assertTrue(self.knight.valid_move([2, 1]))
 
-        # Test case: Moving to an invalid position
+        # Test case: Moving to an invalid position (off the board)
         print("Running test case: Moving to an invalid position")
         self.assertFalse(self.knight.valid_move([-1, 2]))
 
-        # Test case: Moving to an invalid position
+        # Test case: Moving to an invalid position (off the board)
         print("Running test case: Moving to an invalid position")
         self.assertFalse(self.knight.valid_move([8, 8]))
 
+        # Test case: Moving to an invalid position (already visited)
+        print("Running test case: Moving to an invalid position")
+        self.knight.visited = [[2, 1]]
+        self.assertFalse(self.knight.valid_move([2, 1]))
+    
     def test_move_to(self):
+        self.knight.start_pos = [0,0]
         # Test case: Moving to a valid position
         print("Running test case: Moving to a valid position")
-        self.knight.move_to([2, 1])
-        self.assertEqual(self.knight.start_pos, [2, 1])
-
+        self.assertTrue(self.knight.move_to([2, 1]))
+        # Test case: Moving to a previously visited position
+        print("Running test case: Moving to a previously visited position")
+        self.assertFalse(self.knight.move_to([2, 1]))
+        
         # Test case: Moving to an invalid position
         print("Running test case: Moving to an invalid position")
-        self.assertRaisesRegex(ValueError, "Invalid move",
-                               self.knight.move_to, [-1, 2])
-
+        self.assertFalse(self.knight.move_to([-1, 1]))
+        
         # Test case: Moving to an invalid position
         print("Running test case: Moving to an invalid position")
-        self.assertRaisesRegex(ValueError, "Invalid move",
-                               self.knight.move_to, [8, 8])
+        self.assertFalse(self.knight.move_to([8, 8]))
 
+    def log(self, message):
+        print(f'{message}')
 
 if __name__ == '__main__':
     unittest.main()
